@@ -1,0 +1,17 @@
+{% extends "tsp/base.html" %}
+
+{% block content %}
+{% if cities < min_cities %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Вы выбрали слишком мало городов. Необходимо не меньше {{ min_cities }}</h2>
+        </div>
+    </div>
+{% elif cities >= max_cities %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Вы выбрали слишком много городов. Необходимо не больше {{ max_cities }}</h2>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

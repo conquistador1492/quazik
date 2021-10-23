@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 
-from tsp.views import Index
+from tsp.views import Index, number_of_cities
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', Index.as_view(), name="index")
+    path('', Index.as_view(), name="index"),
+    path('number_of_cities/', number_of_cities, name='number_of_cities')
 ]
