@@ -1,0 +1,18 @@
+{% extends "tsp/base.html" %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Посещение достопримечательностей</h2>
+        </div>
+    </div>
+
+    <form action="/solve_tsp/" method="POST">
+        {% csrf_token %}
+        {% for i in cities %}
+            <label>Станция метро {{ i|add:1 }}: </label>
+            <input type="text" name="city_{{ i}}"><br>
+        {% endfor %}
+        <input type="submit" value="Найти маршрут">
+    </form>
+{% endblock %}
