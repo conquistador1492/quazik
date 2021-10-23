@@ -114,10 +114,17 @@ function addMarker(location, map) {
   // from the array of alphabetical characters.
   markers.push(new google.maps.Marker({
     position: location,
-    label: labels[labelIndex++ % labels.length],
+    label: labels[labelIndex % labels.length],
     map: map,
   }));
-  document.getElementById("find-route").style.cursor = "auto";
+
+    $('<input />').attr('type', 'hidden')
+        .attr('name', labels[labelIndex % labels.length])
+        .attr('value', location.lat().toString() + ',' + location.lng().toString())
+        .appendTo('#find-route-form');
+
+    labelIndex++;
+  // document.getElementById("find-route-button").style.cursor = "auto";
 }
 
 // function deleteMarker(location, map) {

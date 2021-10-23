@@ -4,7 +4,10 @@
     <div class="panel panel-default">
         <div id="title-tsp" class="panel-heading">
             <h2>Выберите места</h2>
-            <input id="find-route" type="submit" value="Найти маршрут">
+            <form action="/solve_tsp/" method="POST" id="find-route-form">
+                {% csrf_token %}
+                <input id="find-route-button" type="submit" name="aaa" value="Найти маршрут">
+            </form>
         </div>
     </div>
 {#    {% include "tsp/choose_number_of_cities.html" %}#}
