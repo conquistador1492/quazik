@@ -117,6 +117,7 @@ function addMarker(location, map) {
     label: labels[labelIndex++ % labels.length],
     map: map,
   }));
+  document.getElementById("find-route").style.cursor = "auto";
 }
 
 // function deleteMarker(location, map) {

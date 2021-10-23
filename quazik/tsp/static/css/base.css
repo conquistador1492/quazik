@@ -41,3 +41,9 @@ body {
        text-align: center;
        padding-top: 1em;
    }
+   #find-route {
+       background-color: #4CAF50;
+       font-size: large;
+       border-radius: 12px;
+       cursor: not-allowed;
+   }
