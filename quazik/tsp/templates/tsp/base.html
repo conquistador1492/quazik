@@ -20,15 +20,8 @@
     {% endblock %}
 </div>
 
-    <div id="container">
-      <div id="map"></div>
-    </div>
-    <!--The div element for the map -->
+{% block maps %}
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrIZJojkLvVwjh8xiM8Pa-lu-rb8nt5NM&callback=initMap&libraries=&v=weekly"
-      async
-    ></script>
+{% endblock %}
 </body>
 </html>
