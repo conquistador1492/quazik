@@ -21,5 +21,5 @@ from tsp.views import Index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', views.Index.as_view(), name="index")
+    path('', Index.as_view(), name="index")
 ]

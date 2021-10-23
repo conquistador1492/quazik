@@ -3,3 +3,4 @@ jupyter
 
 -i https://repo.qboard.tech/
 qboard-client
+django
