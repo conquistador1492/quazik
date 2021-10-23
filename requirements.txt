@@ -1,0 +1,5 @@
+ipykernel
+jupyter
+
+-i https://repo.qboard.tech/
+qboard-client
