@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.http import HttpResponse
 from django.contrib import messages
+from quazik.settings import GOOGLE_TOKEN
+
+from typing import List
+import requests
 
 
 class Index(generic.View):
@@ -30,6 +34,44 @@ class Marker:
         self.lng = lng
 
 
+class Distance:
+    def __init__(self, origin: Marker, destination: Marker, distance: float):
+        self.origin = origin
+        self.destination = destination
+        self.distance = distance
+
+    def __str__(self):
+        return ','.join([self.origin.name, self.destination.name, str(self.distance)])
+
+
+def return_distance_by_google_api(markers: List[Marker]) -> List[Distance]:
+    url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
+    origins = r'%7C'.join([
+        f"{marker.lat}%2C{marker.lng}"
+        for marker in markers
+    ])
+    destinations = r'%7C'.join([
+        f"{marker.lat}%2C{marker.lng}"
+        for marker in markers
+    ])
+    response = requests.get(f"{url}?origins={origins}&destinations={destinations}&key={GOOGLE_TOKEN}")
+
+    print(f"Status code: {response.status_code}")
+    print(f"Reason: {response.reason}")
+    print(response.json())
+
+    if response.status_code != 200:
+        raise Exception(response.reason)
+
+    distances = []
+    for i, row in enumerate(response.json()['rows']):
+        for j, value in enumerate(row['elements']):
+            print(value)
+            distances.append(Distance(markers[i], markers[j], value["duration"]['value']))
+
+    return distances
+
+
 class SolveTSP(generic.View):
     def get(self, request, *args, **kwargs):
         return HttpResponse('We will solve soon')
@@ -42,8 +84,9 @@ class SolveTSP(generic.View):
                 markers.append(Marker(symbol, lat, lng))
 
         if len(markers) < 2:
-            # messages.error(request, 'Необходимо выбрать не менее двух городов')
             return redirect('/')
 
-        return HttpResponse('\n'.join([str([marker.name, marker.lat, marker.lng]) for marker in markers]))
+        distances = return_distance_by_google_api(markers)
+
+        return HttpResponse('|'.join([str(x) for x in distances]))
 

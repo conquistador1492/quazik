@@ -1,0 +1,3 @@
+class SolveTSPAtQBoard:
+    def __init__(self):
+        ...
