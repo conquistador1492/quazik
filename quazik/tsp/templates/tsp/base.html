@@ -2,14 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Посещение достопримечательностей</title>
     {% load static %}
+
+    <title>Distance Matrix Service</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet"  href="{% static 'css/map_style.css' %}" />
+    <script src={% static 'js/map_index.js' %}></script>
+
 </head>
 <body>
-<div class="container">
+<div id="header"><h1>Quazik</h1></div>
+
+<div id="content">
     {% block content %}
 
     {% endblock %}
 </div>
+
+    <div id="container">
+      <div id="map"></div>
+    </div>
+    <!--The div element for the map -->
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrIZJojkLvVwjh8xiM8Pa-lu-rb8nt5NM&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
 </body>
 </html>
