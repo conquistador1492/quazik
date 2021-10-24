@@ -1,0 +1,47 @@
+{% extends "tsp/base.html" %}
+
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript">
+    let markers = [];
+    function initMap() {
+      const bangalore = { lat: 55.75, lng: 37.61 };
+
+      let map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 11,
+        center: bangalore,
+      });
+
+      addMarkerWithName({ lat: {{ lat }}, lng: {{ lng }} }, map, 'a');
+    }
+    function addMarkerWithName(location, map, name) {
+      markers.push(new google.maps.Marker({
+        position: location,
+        label: name,
+        map: map,
+      }));
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div id="title-tsp" class="panel-heading">
+            <h2>Оптимальный путь</h2>
+        </div>
+    </div>
+{% endblock %}
+
+{% block maps %}
+    <div id="container">
+      <div id="map"></div>
+    </div>
+
+     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrIZJojkLvVwjh8xiM8Pa-lu-rb8nt5NM&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
+
+{% endblock %}
