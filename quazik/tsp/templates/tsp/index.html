@@ -1,5 +1,11 @@
 {% extends "tsp/base.html" %}
 
+{% load static %}
+
+{% block head %}
+    <script src={% static 'js/map_index.js' %}></script>
+{% endblock %}
+
 {% block content %}
     <div class="panel panel-default">
         <div id="title-tsp" class="panel-heading">
@@ -10,7 +16,6 @@
             </form>
         </div>
     </div>
-{#    {% include "tsp/choose_number_of_cities.html" %}#}
 {% endblock %}
 
 {% block maps %}

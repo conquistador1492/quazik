@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     {% load static %}
 
-    <title>Distance Matrix Service</title>
+    <title>Оптимальный маршрут по городу</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet"  href="{% static 'css/map_style.css' %}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src={% static 'js/map_index.js' %}></script>
+
+    {% block head %}
+
+    {% endblock %}
 </head>
 <body>
 <div id="header"><h1>Quazik</h1></div>

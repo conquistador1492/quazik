@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.http import HttpResponse
-from django.contrib import messages
+
+from tsp.models import Marker, return_distance_by_google_api
+from tsp.solve_tsp_at_qboard import SolveTSPAtQBoard
 
 
 class Index(generic.View):
@@ -11,29 +13,17 @@ class Index(generic.View):
         return render(request, template_name, dct)
 
 
-def number_of_cities(request):
-    min_cities = 2
-    max_cities = 20
-    cities = int(request.POST.get('cities'))
-    if cities < min_cities:  # or cities >= max_cities:
-        dct = {'cities': cities, 'min_cities': min_cities, 'max_cities': max_cities}
-        return render(request, 'tsp/incorrect_number_of_cities.html', dct)
-
-    dct = {'cities': list(range(cities))}
-    return render(request, 'tsp/choose_cities.html', dct)
-
-
-class Marker:
-    def __init__(self, name, lat, lng):
-        self.name = name
-        self.lat = lat
-        self.lng = lng
+class Step:
+    def __init__(self, origin_name, origin_lat, origin_lng, destination_name, destination_lat, destination_lng):
+        self.origin_name = origin_name
+        self.origin_lat = origin_lat
+        self.origin_lng = origin_lng
+        self.destination_name = destination_name
+        self.destination_lat = destination_lat
+        self.destination_lng = destination_lng
 
 
 class SolveTSP(generic.View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('We will solve soon')
-
     def post(self, request, *args, **kwargs):
         markers = []
         for symbol in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -42,8 +32,21 @@ class SolveTSP(generic.View):
                 markers.append(Marker(symbol, lat, lng))
 
         if len(markers) < 2:
-            # messages.error(request, 'Необходимо выбрать не менее двух городов')
             return redirect('/')
 
-        return HttpResponse('\n'.join([str([marker.name, marker.lat, marker.lng]) for marker in markers]))
+        distances = return_distance_by_google_api(markers)
+
+        solver = SolveTSPAtQBoard(markers, distances)
+        best_path = solver.get_best_path()
+
+        print(best_path)
+
+        steps = []
+        for i in range(len(best_path) - 1):
+            steps.append(Step(
+                best_path[i].name, best_path[i].lat, best_path[i].lng,
+                best_path[i + 1].name, best_path[i + 1].lat, best_path[i + 1].lng)
+            )
+
+        return render(request, 'tsp/founded_path.html', {'path': best_path, 'steps': steps})
 
