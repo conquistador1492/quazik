@@ -3,6 +3,7 @@ from django.views import generic
 from django.http import HttpResponse
 
 from tsp.models import Marker, return_distance_by_google_api
+from tsp.solve_tsp_at_qboard import SolveTSPAtQBoard
 
 
 class Index(generic.View):
@@ -40,5 +41,8 @@ class SolveTSP(generic.View):
 
         distances = return_distance_by_google_api(markers)
 
-        return HttpResponse('|'.join([str(x) for x in distances]))
+        solver = SolveTSPAtQBoard(markers, distances)
+        best_path = solver.get_best_path()
+
+        return HttpResponse('->'.join([str(x) for x in best_path]))
 

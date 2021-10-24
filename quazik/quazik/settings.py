@@ -132,3 +132,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 GOOGLE_TOKEN = 'AIzaSyDrIZJojkLvVwjh8xiM8Pa-lu-rb8nt5NM'
+QBOARD_PARAMS = {
+    "remote_addr": "https://remote.qboard.tech",
+    "access_key": "0878a0b9-0bda-499b-b74f-ad105357239e"
+}

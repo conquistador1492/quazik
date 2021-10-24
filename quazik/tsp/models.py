@@ -12,6 +12,15 @@ class Marker:
         self.lat = lat
         self.lng = lng
 
+    def __str__(self):
+        return self.name
+
+    def __eq__(self, other):
+        return self.name == other.name and self.lat == other.lat and self.lng == other.lng
+
+    def __hash__(self):
+        return hash(self.name) + hash(self.lat) + hash(self.lng)
+
 
 class Distance:
     def __init__(self, origin: Marker, destination: Marker, distance: float):
@@ -41,7 +50,6 @@ def return_distance_by_google_api(markers: List[Marker]) -> List[Distance]:
     distances = []
     for i, row in enumerate(response.json()['rows']):
         for j, value in enumerate(row['elements']):
-            print(value)
             distances.append(Distance(markers[i], markers[j], value["duration"]['value']))
 
     return distances
