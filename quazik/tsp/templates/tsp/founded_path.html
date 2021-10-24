@@ -12,8 +12,9 @@
         zoom: 11,
         center: bangalore,
       });
-
-      addMarkerWithName({ lat: {{ lat }}, lng: {{ lng }} }, map, 'a');
+        {% for marker in path %}
+            addMarkerWithName({ lat: {{ marker.lat }}, lng: {{ marker.lng }} }, map, '{{ marker.name}}');
+        {% endfor %}
     }
     function addMarkerWithName(location, map, name) {
       markers.push(new google.maps.Marker({

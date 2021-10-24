@@ -29,10 +29,5 @@ class SolveTSP(generic.View):
         solver = SolveTSPAtQBoard(markers, distances)
         best_path = solver.get_best_path()
 
-        return render(request, 'tsp/founded_path.html', {'lat': best_path[0].lat, 'lng': best_path[0].lng})
-
-
-# class FoundedPath(generic.View):
-#     def post(self, request, path):
-#         return render(request, 'tsp/founded_path.html', {'lat': path[0].lat, 'lng': path[0].lng })
+        return render(request, 'tsp/founded_path.html', {'path': best_path})
 
