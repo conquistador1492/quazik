@@ -13,22 +13,7 @@ class Index(generic.View):
         return render(request, template_name, dct)
 
 
-def number_of_cities(request):
-    min_cities = 2
-    max_cities = 20
-    cities = int(request.POST.get('cities'))
-    if cities < min_cities:  # or cities >= max_cities:
-        dct = {'cities': cities, 'min_cities': min_cities, 'max_cities': max_cities}
-        return render(request, 'tsp/incorrect_number_of_cities.html', dct)
-
-    dct = {'cities': list(range(cities))}
-    return render(request, 'tsp/choose_cities.html', dct)
-
-
 class SolveTSP(generic.View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('We will solve soon')
-
     def post(self, request, *args, **kwargs):
         markers = []
         for symbol in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -45,4 +30,9 @@ class SolveTSP(generic.View):
         best_path = solver.get_best_path()
 
         return HttpResponse('->'.join([str(x) for x in best_path]))
+
+
+class FoundedPath(generic.View):
+    def post(self, request, *args, **kwargs):
+        ...
 
