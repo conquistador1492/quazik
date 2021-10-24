@@ -6,11 +6,11 @@
     <script type="text/javascript">
     let markers = [];
     function initMap() {
-      const bangalore = { lat: 55.75, lng: 37.61 };
+      const moscow = { lat: 55.75, lng: 37.61 };
 
       let map = new google.maps.Map(document.getElementById("map"), {
         zoom: 11,
-        center: bangalore,
+        center: moscow,
       });
         {% for marker in path %}
             addMarkerWithName({ lat: {{ marker.lat }}, lng: {{ marker.lng }} }, map, '{{ marker.name}}');
