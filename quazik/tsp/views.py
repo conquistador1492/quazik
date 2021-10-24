@@ -13,6 +13,16 @@ class Index(generic.View):
         return render(request, template_name, dct)
 
 
+class Step:
+    def __init__(self, origin_name, origin_lat, origin_lng, destination_name, destination_lat, destination_lng):
+        self.origin_name = origin_name
+        self.origin_lat = origin_lat
+        self.origin_lng = origin_lng
+        self.destination_name = destination_name
+        self.destination_lat = destination_lat
+        self.destination_lng = destination_lng
+
+
 class SolveTSP(generic.View):
     def post(self, request, *args, **kwargs):
         markers = []
@@ -29,5 +39,14 @@ class SolveTSP(generic.View):
         solver = SolveTSPAtQBoard(markers, distances)
         best_path = solver.get_best_path()
 
-        return render(request, 'tsp/founded_path.html', {'path': best_path})
+        print(best_path)
+
+        steps = []
+        for i in range(len(best_path) - 1):
+            steps.append(Step(
+                best_path[i].name, best_path[i].lat, best_path[i].lng,
+                best_path[i + 1].name, best_path[i + 1].lat, best_path[i + 1].lng)
+            )
+
+        return render(request, 'tsp/founded_path.html', {'path': best_path, 'steps': steps})
 
